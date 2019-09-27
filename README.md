@@ -1,6 +1,12 @@
 # Kalashnikov
 From Life Of Boris youtube channel
 
+![alt text](https://vignette.wikia.nocookie.net/youtube/images/0/06/Boris.jpg/revision/latest?cb=20190429142534)
+
+
+
+
+
 Rules of Kalashnikov:
 Standard card deck
 Each person has 20 health
