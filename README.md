@@ -3,9 +3,8 @@ From Life Of Boris youtube channel
 
 ![alt text](https://vignette.wikia.nocookie.net/youtube/images/0/06/Boris.jpg/revision/latest?cb=20190429142534)
 
-
-
-
+gradlew build to build
+gradlew run to run
 
 Rules of Kalashnikov:
 Standard card deck
