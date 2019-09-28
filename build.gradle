@@ -1,0 +1,33 @@
+plugins {
+    id 'idea'
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+}
+
+
+repositories {
+    jcenter()
+}
+
+sourceSets{
+    src{
+        main {
+            java {
+                srcDirs = ['src']
+            }
+            resources {
+                srcDirs = ['src']
+            }
+        }
+
+    }
+}
+mainClassName="main"
+javafx {
+    version = "11"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+run{
+    standardInput=System.in
+}

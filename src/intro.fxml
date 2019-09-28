@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="titleController">
+   <children>
+      <Button layoutX="183.0" layoutY="267.0" mnemonicParsing="false" onAction="#startButton" text="Start Game" />
+      <Label layoutX="183.0" layoutY="56.0" text="Kalashnikov">
+         <font>
+            <Font size="45.0" />
+         </font>
+      </Label>
+      <Button layoutX="338.0" layoutY="267.0" mnemonicParsing="false" onAction="#infoButton" text="How to play" />
+   </children>
+</AnchorPane>
