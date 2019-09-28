@@ -39,7 +39,7 @@ public class Player{
         int idx = pileOrigin.numSuitToNum(n,s);
         Card blankCard = new Card(13,4);
         pileOrigin.setCard(idx, blankCard);
-        if (this.hand[location] != blankCard){
+        if (this.hand[location].isEqual(blankCard) == false){
             pileTarget.setCard(idx, this.hand[location]);
         }
         this.hand[location] = acquiredCard;
