@@ -227,6 +227,12 @@ public class GameRound{
     //player1 draws card
     Card drawnCard;
     printHand(hand1);
+    //GUI stuff
+    for (int i=0; i<hand1.length; i++) {
+        mainController.update_card(hand1[i], i);
+    }
+
+
     System.out.println("Which card would you like to replace?(int from 0 to 3) "); int rcno = scan.nextInt();
     System.out.println("Which pile should the card go to?(d)iscard/(s)helf "); String tpile = scan.next();
     System.out.println("Which pile do you want to draw from?(m)ilitary/(s)helf "); String opile = scan.next();

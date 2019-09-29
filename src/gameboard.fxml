@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainController">
+   <children>
+      <Label layoutX="137.0" layoutY="33.0" text="Health">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="272.0" layoutY="94.0" text="Your Cards">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="card1" layoutX="175.0" layoutY="145.0" text="       " />
+      <Label fx:id="card2" layoutX="288.0" layoutY="145.0" text="       " />
+      <Label fx:id="card3" layoutX="435.0" layoutY="145.0" text="       " />
+      <Button layoutX="258.0" layoutY="266.0" mnemonicParsing="false" text="Discard Card" />
+      <ComboBox layoutX="237.0" layoutY="300.0" prefWidth="150.0" promptText="Draw from" />
+      <Label fx:id="health" layoutX="298.0" layoutY="38.0" text="      " />
+      <Label layoutX="132.0" layoutY="73.0" text="Enemy Health">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="enemyHealth" layoutX="298.0" layoutY="78.0" text="    " />
+   </children>
+</AnchorPane>

@@ -23,7 +23,7 @@ sourceSets{
 
     }
 }
-mainClassName="main"
+mainClassName="GUI"
 javafx {
     version = "11"
     modules = [ 'javafx.controls', 'javafx.fxml' ]

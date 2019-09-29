@@ -18,7 +18,10 @@ public class Card{
         }
         return false;
     }
-
+    @Override //Overrides default string representation
+    public String toString() {
+        return String.valueOf(this.number)+"of"+this.suit;
+    }
     void disp(){
         String[] royalty = {"Jack", "Queen", "King"};
         if (this.number > 0 && this.number <= 9){
