@@ -1,3 +1,5 @@
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Random;
 
@@ -55,10 +57,12 @@ public class GameRound{
     return tester;
   }
 
-  private int[] randCards(int l){
-    int[] cnos = new int[l];
+  private int[] randCards(int n){
+    //Generates n random numbers
+
+    /*int[] cnos = new int[n];
     int c;
-    for (int i = 0; i < l; i++){
+    for (int i = 0; i < n; i++){
       boolean success = false;
       while (success == false) {
         c = randRange(1, 51);
@@ -68,14 +72,22 @@ public class GameRound{
         }
       }
     }
-    return cnos;
+    return cnos;*/
+    int[] ints = new int[n];
+    for (int i=0; i<n; i++) {
+      int c=randRange(1,51);
+      ints[i]=c;
+    }
+    return ints;
   }
 
   // ambiguous karthik, can u work on constructor, that is second challenging part of class okay
   public GameRound(Player b, Player v){
+    //Initialize Players
     this.b = b;
     this.v = v;
 
+    //Initialize decks
     this.militaryGarbage = new Pile(true);
     this.shelf = new Pile(false);
     this.discard = new Pile(false);
@@ -93,7 +105,8 @@ public class GameRound{
       int s = idxs[i] % 4;
       int n = (idxs[i] - s)/4;
       Card acqCard = new Card(n, s);
-      Pile[] buffer = new Pile[2];
+      System.out.println(acqCard.toString());
+      Pile[] buffer;
       if (i < 4){
         buffer = this.b.receive_card(this.militaryGarbage, this.setupAssist, acqCard, i);
       }else{
@@ -196,13 +209,14 @@ public class GameRound{
   }
 
   // returns role code, damage taken of person of role code
-  int[] executeRound(Player player1, Player player2){
-    int g = getGun(player1);
+  int[] executeRound(){
+    int g = getGun(this.b);
     boolean cont = true;
     Scanner scan = new Scanner(System.in);
-    Card[] hand1 = player1.get_hand();
-    Card[] hand2 = player2.get_hand();
+    Card[] hand1 = this.b.get_hand();
+    Card[] hand2 = this.v.get_hand();
     int[] toReturn = new int[2];
+
     //kalashnikov and golden kalashnikov
     if (g == 1 && cont == true){
       System.out.println("You have Kalashnikov, would you like to fire?(y/n) ");
@@ -211,7 +225,7 @@ public class GameRound{
         System.out.println("Which card index do you pick?(int from 0-3) ");
         int indx = scan.nextInt();
         int damage = damageDealt(indx, hand2, false);
-        toReturn[0] = player2.get_role_code(); toReturn[1] = damage;
+        toReturn[0] = this.v.get_role_code(); toReturn[1] = damage;
         return toReturn;
       }
     }
@@ -219,7 +233,7 @@ public class GameRound{
       System.out.println("You have Golden Kalashnikov, would you like to fire?(y/n) ");
       char c = scan.next().charAt(0);
       if (c == 'y'){
-          toReturn[0] = player2.get_role_code(); toReturn[1] = 8;
+          toReturn[0] = this.v.get_role_code(); toReturn[1] = 8;
           System.out.println(8);
           return toReturn;
       }
@@ -246,17 +260,17 @@ public class GameRound{
     }
     if (tpile == "discard" || tpile == "d"){
       if (m == true){
-        newPvalues = player1.receive_card(this.militaryGarbage, this.discard, drawnCard, rcno);
+        newPvalues = this.b.receive_card(this.militaryGarbage, this.discard, drawnCard, rcno);
         this.militaryGarbage = newPvalues[0]; this.discard = newPvalues[1];
       }else{
-        newPvalues = player1.receive_card(this.shelf, this.discard, drawnCard, rcno);
+        newPvalues = this.b.receive_card(this.shelf, this.discard, drawnCard, rcno);
         this.shelf = newPvalues[0]; this.discard = newPvalues[1];}
     }else{
       if (m == true){
-        newPvalues = player1.receive_card(this.militaryGarbage, this.shelf, drawnCard, rcno);
+        newPvalues = this.b.receive_card(this.militaryGarbage, this.shelf, drawnCard, rcno);
         this.militaryGarbage = newPvalues[0]; this.shelf = newPvalues[1];
       }else{
-        newPvalues = player1.receive_card(this.shelf, this.shelf, drawnCard, rcno);
+        newPvalues = this.b.receive_card(this.shelf, this.shelf, drawnCard, rcno);
         int n = hand1[rcno].get_number(); int s = hand1[rcno].get_suit();
         Card rcard = new Card(n,s);
         this.shelf = newPvalues[0]; this.shelf.setCard(n*4+s, rcard);}
@@ -264,7 +278,7 @@ public class GameRound{
     for (int i = 0; i < 1000; i++){
       System.out.println("\n");
     }
-    executeRound(player2, player1);
+
     return blankjaja;
   }
 

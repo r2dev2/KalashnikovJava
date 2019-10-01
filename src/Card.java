@@ -1,8 +1,8 @@
 // If card is declared Card(0,0), card is blank
 public class Card{
-    int number;
+    private int number;
     // Clubs, spades, heart, diamond, start from 0
-    int suit;
+    private int suit;
     String[] suitNames = {"Clubs", "Spades", "Hearts", "Diamonds", "Blyat"};
     boolean isblank;
 
@@ -10,7 +10,9 @@ public class Card{
         this.number = number;
         this.suit = suit;
     }
-
+    public int numSuitToNum(){
+        return this.number*4+this.suit;
+    }
     // Various
     boolean isEqual(Card card2){
         if (card2.get_number() == this.number && card2.get_suit() == this.suit){
@@ -20,7 +22,7 @@ public class Card{
     }
     @Override //Overrides default string representation
     public String toString() {
-        return String.valueOf(this.number)+"of"+this.suit;
+        return String.valueOf(this.number)+" of "+this.get_name(this.suit);
     }
     void disp(){
         String[] royalty = {"Jack", "Queen", "King"};

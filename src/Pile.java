@@ -4,10 +4,7 @@ public class Pile{
     boolean toInit;
 
     // Generic
-    public int numSuitToNum(int n, int s){
-        return n*4+s;//isn't it possible for two different cards to have the same ID?
-        // no suit only goes up to 3
-    }
+
 
     boolean is_in(Card c){
         for (int i = 0; i < 52; i++){
@@ -19,12 +16,15 @@ public class Pile{
     }
 
     // Initializes pile to contain standard deck/empty deck
-    private void init(boolean notblank){
+    private void init(boolean toInit){
         for (int i = 0; i < 13; i++){
             for (int j = 0; j < 4; j++){
-                this.contents[numSuitToNum(i,j)] = new Card(13,4);
-                if (notblank == true){
-                    this.contents[numSuitToNum(i,j)] = new Card(i+1,j);
+                //this.contents[i*4+j] = new Card(13,4);
+
+                //initialize if true
+                //otherwise do nothing
+                if (toInit == true){
+                    this.contents[i*4+j] = new Card(i+1,j);
                 }
             }
         }
@@ -36,8 +36,8 @@ public class Pile{
     }
      // lets make the new classes, i'll create the files
     // Getters
-    boolean checkCard(int cardnum, int cardsuit){
-        int idx = numSuitToNum(cardnum, cardsuit);
+    boolean checkCard(Card cardtoCheck){
+        int idx = cardtoCheck.numSuitToNum();
         if (this.contents[idx].get_number() == 0){
             return false;
         }

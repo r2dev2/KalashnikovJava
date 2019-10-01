@@ -34,12 +34,10 @@ public class Player{
     // setters
     // returns ogpile, then targetpile
     Pile[] receive_card(Pile pileOrigin, Pile pileTarget, Card acquiredCard, int location){
-        int n = acquiredCard.get_number();
-        int s = acquiredCard.get_suit();
-        int idx = pileOrigin.numSuitToNum(n,s);
-        Card blankCard = new Card(13,4);
-        pileOrigin.setCard(idx, blankCard);
-        if (this.hand[location].isEqual(blankCard) == false){
+        int idx = acquiredCard.numSuitToNum();
+        //Card blankCard = new Card(13,4);
+        pileOrigin.setCard(idx, null);
+        if (this.hand[location]!=null){
             pileTarget.setCard(idx, this.hand[location]);
         }
         this.hand[location] = acquiredCard;
