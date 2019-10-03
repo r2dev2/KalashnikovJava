@@ -1,24 +1,34 @@
 # Kalashnikov
-From Life Of Boris youtube channel
+An implementation of [Kahashnikov](https://www.youtube.com/watch?v=IiRk-yGfAjc) from [Life Of Boris](https://www.youtube.com/user/NocturnoPlays).
 
-![alt text](https://vignette.wikia.nocookie.net/youtube/images/0/06/Boris.jpg/revision/latest?cb=20190429142534)
+![alt text](./img/thumbnail.jpg)
 
-gradlew build to build
-gradlew run to run
+## Execution
+Use the following command to build the program.
 
-Rules of Kalashnikov:
-Standard card deck
-Each person has 20 health
-Four cards to each person, rest is military garbage pile
-Need ace, 4, king, 7 for AK-47
-Shelf space is shared by both players, not visible to either
-Put one card in the discard pile or shelf, draw one card from military garbage pile
+``gradlew build``
 
-Strength of cards: A-K-Q-J-10-9-8-7-6-5-4-3-2
+Use the following command to run the program.
 
-One who made gun picks one of enemy's cards
-Damage is done based on choice of card:
-if weakest card, 1 damage, if 2nd weakest card, 2 damage, etc.
-damage is equal for same num, different suit
+``gradlew run``
 
-after this, collect and shuffle cards again
+## Rules
+* Standard card deck
+* Each person has 20 health
+* Four cards to each person
+    * Rest is military garbage pile
+* Need `ace`, `4`, `king`, and `7` to spell out `AK-47`
+* Shelf space is shared by both players
+    * Not visible to either
+* Put one card in the discard pile or shelf
+    * Draw one card from military garbage pile
+* Strength of cards: A-K-Q-J-10-9-8-7-6-5-4-3-2
+* One who made gun picks one of enemy's cards
+* Damage is done based on choice of card:
+    * Weakest card:
+        * 1 damage
+    * 2nd weakest card
+        2 damage
+    * etc.
+    * Damage is equal for same num, different suit
+* Collect and shuffle cards again
