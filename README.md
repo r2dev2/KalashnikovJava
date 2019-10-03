@@ -28,7 +28,7 @@ Use the following command to run the program.
     * Weakest card:
         * 1 damage
     * 2nd weakest card
-        2 damage
+        * 2 damage
     * etc.
     * Damage is equal for same num, different suit
 * Collect and shuffle cards again
