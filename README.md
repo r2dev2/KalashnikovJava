@@ -1,5 +1,5 @@
 # Kalashnikov
-An implementation of [Kahashnikov](https://www.youtube.com/watch?v=IiRk-yGfAjc) from [Life Of Boris](https://www.youtube.com/user/NocturnoPlays).
+An implementation of [Kalashnikov](https://www.youtube.com/watch?v=IiRk-yGfAjc) from [Life Of Boris](https://www.youtube.com/user/NocturnoPlays).
 
 ![alt text](./img/thumbnail.jpg)
 
