@@ -216,7 +216,6 @@ public class GameRound{
     Card[] hand1 = playerlist[turn].get_hand();
     Card[] hand2 = playerlist[(turn+1)%2].get_hand(); //other player hand
     int[] toReturn = new int[2];
-    System.out.println("Cheeki Breeki");
 
     //kalashnikov and golden kalashnikov
     if (gun == 1 && cont == true){
