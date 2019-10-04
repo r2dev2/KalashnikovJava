@@ -106,7 +106,6 @@ public class GameRound{
       int s = idxs[i] % 4;
       int n = (idxs[i] - s)/4;
       Card acqCard = new Card(n, s);
-      System.out.println(acqCard.toString());
       Pile[] buffer;
       if (i < 4){
         buffer = this.b.receive_card(this.militaryGarbage, this.setupAssist, acqCard, i);
@@ -217,6 +216,7 @@ public class GameRound{
     Card[] hand1 = playerlist[turn].get_hand();
     Card[] hand2 = playerlist[(turn+1)%2].get_hand(); //other player hand
     int[] toReturn = new int[2];
+    System.out.println("Cheeki Breeki");
 
     //kalashnikov and golden kalashnikov
     if (gun == 1 && cont == true){
