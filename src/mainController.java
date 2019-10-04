@@ -54,7 +54,7 @@ public class mainController {
 
     }
     private void deal_damage(int[] pdamage) {
-        if (pdamage[0] == 1) {
+        if (pdamage[0] == 0) {
             boris.takeDamage(pdamage[1]);
             health.setText(String.valueOf(boris.get_health()));
         } else {

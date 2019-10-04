@@ -22,12 +22,12 @@ public class Player{
         return this.role;
     }
 
-    // 1 if by Boris, 2 if by Vadim Blyat
-    int get_role_code(){
+    // 0 if by Boris, 1 if by Vadim Blyat
+    int get_player_id(){
         if (this.role == "Boris"){
-            return 1;
+            return 0;
         }else{
-            return 2;
+            return 1;
         }
     }
 

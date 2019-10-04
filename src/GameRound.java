@@ -226,7 +226,7 @@ public class GameRound{
         mainController.update_message("Which card index do you pick?(int from 0-3) ");
         int indx = scan.nextInt();
         int damage = damageDealt(indx, hand2, false);
-        toReturn[0] = this.v.get_role_code(); toReturn[1] = damage;
+        toReturn[0] = this.v.get_player_id(); toReturn[1] = damage;
         return toReturn;
       }
     }
@@ -234,7 +234,7 @@ public class GameRound{
       mainController.update_message("You have Golden Kalashnikov, would you like to fire?(y/n) ");
       char c = scan.next().charAt(0);
       if (c == 'y'){
-          toReturn[0] = this.v.get_role_code(); toReturn[1] = 8;
+          toReturn[0] = this.v.get_player_id(); toReturn[1] = 8;
           System.out.println(8);
           return toReturn;
       }
