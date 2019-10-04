@@ -7,8 +7,11 @@ public class mainController {
     private GameRound round;
     private Player boris;
     private Player vadim;
+    private int turn=0; //tells you whose turn it is
     @FXML
-    private static Label health;
+    private Label health;
+    @FXML
+    private Label enemyHealth;
     @FXML
     private static Label card1;
     @FXML
@@ -19,6 +22,8 @@ public class mainController {
     private static Label messageBox;
     @FXML
     private static Button deal_button;
+    @FXML
+    private static Button end_turn;
 
     private static Label[] cards = {card1, card2, card3}; //make array so you can access them by index
 
@@ -30,6 +35,9 @@ public class mainController {
         //takes a card, and the position of the card to replace
         cards[card_position].setText(card.toString());
     }
+    public static void update_message(String message) {
+        messageBox.setText(message);
+    }
 
     @FXML
     public void initialize() {
@@ -39,13 +47,19 @@ public class mainController {
     }
     @FXML
     protected void deal_hand(ActionEvent event) {
-        int[] pdamage = round.executeRound();
+        int[] pdamage = round.executeRound(turn);
+        deal_damage(pdamage);
+        turn=(turn+1)%2; //inverts turn, if 0 becomes 1, 1 to 0, changes turn
+
+
+    }
+    private void deal_damage(int[] pdamage) {
         if (pdamage[0] == 1) {
             boris.takeDamage(pdamage[1]);
             health.setText(String.valueOf(boris.get_health()));
         } else {
             vadim.takeDamage(pdamage[1]);
-
+            enemyHealth.setText(String.valueOf(vadim.get_health()));
         }
         if (boris.get_health() <= 0) {
             messageBox.setText("Vadim Blyat has won.");
@@ -55,7 +69,13 @@ public class mainController {
             messageBox.setText("The slav king has won.");
 
         }
-        messageBox.setText("Round finished.");
+    }
+    @FXML
+    protected void endTurn(ActionEvent event) {
+        for (int i=0; i<cards.length; i++) {
+            cards[i].setText("");
+        }
+
     }
 }
 

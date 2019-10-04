@@ -4,13 +4,14 @@ import java.util.Scanner;
 import java.util.Random;
 
 public class GameRound{
-  Player b;
-  Player v;
+  private Player b;
+  private Player v;
   // Status is no gun, kalashnikov, golden kalashnikov
-  Pile militaryGarbage;
-  Pile shelf;
-  Pile discard;
-  Pile setupAssist;
+  private Pile militaryGarbage;
+  private Pile shelf;
+  private Pile discard;
+  private Pile setupAssist;
+  private Player[] playerlist = new Player[]{b, v};
 
   private boolean int_is_in(int x, int[] arr){
     for (int i = 0; i < arr.length; i++){
@@ -209,28 +210,28 @@ public class GameRound{
   }
 
   // returns role code, damage taken of person of role code
-  int[] executeRound(){
-    int g = getGun(this.b);
+  int[] executeRound(int turn){
+    int gun = getGun(playerlist[turn]);
     boolean cont = true;
     Scanner scan = new Scanner(System.in);
-    Card[] hand1 = this.b.get_hand();
-    Card[] hand2 = this.v.get_hand();
+    Card[] hand1 = playerlist[turn].get_hand();
+    Card[] hand2 = playerlist[(turn+1)%2].get_hand(); //other player hand
     int[] toReturn = new int[2];
 
     //kalashnikov and golden kalashnikov
-    if (g == 1 && cont == true){
-      System.out.println("You have Kalashnikov, would you like to fire?(y/n) ");
+    if (gun == 1 && cont == true){
+      mainController.update_message("You have Kalashnikov, would you like to fire?(y/n) ");
       char c = scan.next().charAt(0);
-      if (c == 'c'){
-        System.out.println("Which card index do you pick?(int from 0-3) ");
+      if (c == 'y'){
+        mainController.update_message("Which card index do you pick?(int from 0-3) ");
         int indx = scan.nextInt();
         int damage = damageDealt(indx, hand2, false);
         toReturn[0] = this.v.get_role_code(); toReturn[1] = damage;
         return toReturn;
       }
     }
-    if (g == 2 && cont == true){
-      System.out.println("You have Golden Kalashnikov, would you like to fire?(y/n) ");
+    if (gun == 2 && cont == true){
+      mainController.update_message("You have Golden Kalashnikov, would you like to fire?(y/n) ");
       char c = scan.next().charAt(0);
       if (c == 'y'){
           toReturn[0] = this.v.get_role_code(); toReturn[1] = 8;
