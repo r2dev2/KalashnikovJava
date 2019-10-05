@@ -11,7 +11,7 @@ public class GameRound{
   private Pile shelf;
   private Pile discard;
   private Pile setupAssist;
-  private Player[] playerlist = new Player[]{b, v};
+  public Player[] playerlist;
 
   private boolean int_is_in(int x, int[] arr){
     for (int i = 0; i < arr.length; i++){
@@ -87,18 +87,12 @@ public class GameRound{
     //Initialize Players
     this.b = b;
     this.v = v;
-
+    playerlist = new Player[]{b, v};
     //Initialize decks
     this.militaryGarbage = new Pile(true);
     this.shelf = new Pile(false);
     this.discard = new Pile(false);
     this.setupAssist = new Pile(false);
-
-    //debug discard pile
-    /*Card[] cn = this.discard.getContents();
-    for (int i = 0; i < 52; i++){
-      cn[i].disp();
-    }*/
 
     //initialize slav hands
     int[] idxs = randCards(8);
@@ -175,11 +169,11 @@ public class GameRound{
     return 0;
   }
 
-  private int damageDealt(int idx, Card[] shand, boolean isKalashnikov){
+  private int damageDealt(int idx, Card[] hand, boolean isKalashnikov){
     int[] snarray = new int[4];
     int damage = 0;
     for (int i = 0; i < 4; i++){
-      snarray[i] = shand[i].get_number();
+      snarray[i] = hand[i].get_number();
       if (snarray[i] == 0){
         snarray[i] = 20;
       }
@@ -210,10 +204,11 @@ public class GameRound{
 
   // returns role code, damage taken of person of role code
   int[] executeRound(int turn){
+    System.out.println(playerlist[turn]);
     int gun = getGun(playerlist[turn]);
     boolean cont = true;
     Scanner scan = new Scanner(System.in);
-    Card[] hand1 = playerlist[turn].get_hand();
+    Card[] hand1 = playerlist[turn].get_hand();;
     Card[] hand2 = playerlist[(turn+1)%2].get_hand(); //other player hand
     int[] toReturn = new int[2];
 
@@ -241,11 +236,6 @@ public class GameRound{
     //player1 draws card
     Card drawnCard;
     printHand(hand1);
-    //GUI stuff
-    for (int i=0; i<hand1.length; i++) {
-        mainController.update_card(hand1[i], i);
-    }
-
 
     System.out.println("Which card would you like to replace?(int from 0 to 3) "); int rcno = scan.nextInt();
     System.out.println("Which pile should the card go to?(d)iscard/(s)helf "); String tpile = scan.next();

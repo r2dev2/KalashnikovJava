@@ -1,6 +1,6 @@
 public class Player{
-    int health;
-    Card[] hand = new Card[4];
+    private int health;
+    private Card[] hand = new Card[4];
     // Role can either be Boris or Vadim.
     String role;
 
