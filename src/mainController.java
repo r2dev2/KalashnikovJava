@@ -100,5 +100,36 @@ public class mainController {
         }
 
     }
+
+    int[] executeRound(int turn){
+        System.out.println(playerlist[turn]);
+        int gun = getGun(playerlist[turn]);
+        boolean cont = true;
+        Scanner scan = new Scanner(System.in);
+        Card[] hand1 = playerlist[turn].get_hand();;
+        Card[] hand2 = playerlist[(turn+1)%2].get_hand(); //other player hand
+        int[] toReturn = new int[2];
+    
+        //kalashnikov and golden kalashnikov
+        if (gun == 1 && cont == true){
+          mainController.update_message("You have Kalashnikov, would you like to fire?(y/n) ");
+          char c = scan.next().charAt(0);
+          if (c == 'y'){
+            mainController.update_message("Which card index do you pick?(int from 0-3) ");
+            int indx = scan.nextInt();
+            int damage = damageDealt(indx, hand2, false);
+            toReturn[0] = this.v.get_player_id(); toReturn[1] = damage;
+            return toReturn;
+          }
+        }
+        if (gun == 2 && cont == true){
+          mainController.update_message("You have Golden Kalashnikov, would you like to fire?(y/n) ");
+          char c = scan.next().charAt(0);
+          if (c == 'y'){
+              toReturn[0] = this.v.get_player_id(); toReturn[1] = 8;
+              System.out.println(8);
+              return toReturn;
+          }
+        }
 }
 

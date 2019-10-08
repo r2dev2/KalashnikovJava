@@ -203,7 +203,7 @@ public class GameRound{
   }
 
   // returns role code, damage taken of person of role code
-  int[] executeRound(int turn){
+  /*int[] executeRound(int turn){
     System.out.println(playerlist[turn]);
     int gun = getGun(playerlist[turn]);
     boolean cont = true;
@@ -223,7 +223,7 @@ public class GameRound{
         toReturn[0] = this.v.get_player_id(); toReturn[1] = damage;
         return toReturn;
       }
-    }
+    }*/
     if (gun == 2 && cont == true){
       mainController.update_message("You have Golden Kalashnikov, would you like to fire?(y/n) ");
       char c = scan.next().charAt(0);
