@@ -9,9 +9,13 @@ import javafx.scene.input.KeyEvent;
 
 
 public class mainController {
-    private GameRound round;
     private Player boris;
     private Player vadim;
+    private Pile militaryGarbage;
+    private Pile shelf;
+    private Pile discard;
+    private Pile setupAssist;
+    public Player[] playerlist;
     private int turn=0; //tells you whose turn it is
     @FXML
     private Label health;
@@ -59,8 +63,25 @@ public class mainController {
     public void initialize() {
         Player boris = new Player("Boris", 20);
         Player vadim = new Player("Vadim", 20);
-        round = new GameRound(boris, vadim);
+        this.militaryGarbage = new Pile(true);
+        this.shelf = new Pile(false);
+        this.discard = new Pile(false);
+        this.setupAssist = new Pile(false);
+        int[] idxs = randCards(8);
+        for (int i = 0; i < 8; i++){
+            int s = idxs[i] % 4;
+            int n = (idxs[i] - s)/4;
+            Card acqCard = new Card(n, s);
+            Pile[] buffer;
+            if (i < 4){
+                buffer = boris.receive_card(this.militaryGarbage, this.setupAssist, acqCard, i);
+            }else{
+                buffer = vadim.receive_card(this.militaryGarbage, this.setupAssist, acqCard, i-4);
+            }
+            this.militaryGarbage = buffer[0]; this.setupAssist = buffer[1];
+        }
         cards = new Label[]{card1, card2, card3, card4}; //make array so you can access them by index
+        playerlist = new Player[]{boris, vadim};
     }
     @FXML
     //checks if enter key is pressed, if so get stuff from textbox
@@ -101,14 +122,6 @@ public class mainController {
 
     }
 
-    private Player b;
-  private Player v;
-  // Status is no gun, kalashnikov, golden kalashnikov
-  private Pile militaryGarbage;
-  private Pile shelf;
-  private Pile discard;
-  private Pile setupAssist;
-  public Player[] playerlist;
 
   private boolean int_is_in(int x, int[] arr){
     for (int i = 0; i < arr.length; i++){
@@ -119,8 +132,8 @@ public class mainController {
     return false;
   }
 
-  private boolean card_is_in(Card ca, Pile pi){
-    Card[] cntnts = pi.getContents();
+  private boolean card_is_in(Card ca, Pile pile){
+    Card[] cntnts = pile.getContents();
     for (int i = 0; i < 52; i++){
       if (cntnts[i].isEqual(ca)){
         return true;
@@ -180,41 +193,10 @@ public class mainController {
   }
 
   // ambiguous karthik, can u work on constructor, that is second challenging part of class okay
-  public GameRound(Player b, Player v){
     //Initialize Players
-    this.b = b;
-    this.v = v;
-    playerlist = new Player[]{b, v};
-    //Initialize decks
-    this.militaryGarbage = new Pile(true);
-    this.shelf = new Pile(false);
-    this.discard = new Pile(false);
-    this.setupAssist = new Pile(false);
 
-    //initialize slav hands
-    int[] idxs = randCards(8);
-    for (int i = 0; i < 8; i++){
-      int s = idxs[i] % 4;
-      int n = (idxs[i] - s)/4;
-      Card acqCard = new Card(n, s);
-      Pile[] buffer;
-      if (i < 4){
-        buffer = this.b.receive_card(this.militaryGarbage, this.setupAssist, acqCard, i);
-      }else{
-        buffer = this.v.receive_card(this.militaryGarbage, this.setupAssist, acqCard, i-4);
-      }
-      this.militaryGarbage = buffer[0]; this.setupAssist = buffer[1];
-    }
-    // test case to see if golden kalashnikov works
-    /*Card acqCard = new Card(3,1);
-    this.b.receive_card(this.militaryGarbage, this.setupAssist, acqCard, 0);
-    acqCard = new Card(0,1);
-    this.b.receive_card(this.militaryGarbage, this.setupAssist, acqCard, 1);
-    acqCard = new Card(6,1);
-    this.b.receive_card(this.militaryGarbage, this.setupAssist, acqCard, 2);
-    acqCard = new Card(12,1);
-    this.b.receive_card(this.militaryGarbage, this.setupAssist, acqCard, 3);*/
-  }
+
+    //Initialize decks
 
   private boolean isValidCard(int cnum, int[] possibleCards){
     for(int i = 0; i < 4; i++){
