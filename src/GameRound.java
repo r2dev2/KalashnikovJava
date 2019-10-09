@@ -6,9 +6,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import java.util.Random;
 
 
-public class mainController {
+public class GameRound {
     private Player boris;
     private Player vadim;
     private Pile militaryGarbage;
@@ -48,7 +49,7 @@ public class mainController {
 
     public void update_hand() {
         //takes a card, and the position of the card to replace
-        Player currPlayer = round.playerlist[turn];
+        Player currPlayer = playerlist[turn];
         Card[] hand = currPlayer.get_hand();
         for (int i=0;i<hand.length;i++) {
             cards[i].setText(hand[i].toString());
@@ -93,7 +94,7 @@ public class mainController {
     @FXML
     protected void deal_hand(ActionEvent event) {
         update_hand();
-        int[] pdamage = round.executeRound(turn);
+        int[] pdamage = executeRound(turn);
         deal_damage(pdamage);
         turn=(turn+1)%2; //inverts turn, if 0 becomes 1, 1 to 0, changes turn
     }
@@ -283,31 +284,32 @@ public class mainController {
 
   // returns role code, damage taken of person of role code
   int[] executeRound(int turn){
-    System.out.println(playerlist[turn]);
-    int gun = getGun(playerlist[turn]);
+    //System.out.println(playerlist[turn]);
+    Player currPlayer = playerlist[turn];
+    Player otherPlayer = playerlist[(turn+1)%2];
+    int gun = getGun(currPlayer);
     boolean cont = true;
-    Scanner scan = new Scanner(System.in);
     Card[] hand1 = playerlist[turn].get_hand();;
     Card[] hand2 = playerlist[(turn+1)%2].get_hand(); //other player hand
     int[] toReturn = new int[2];
 
     //kalashnikov and golden kalashnikov
     if (gun == 1 && cont == true){
-      mainController.update_message("You have Kalashnikov, would you like to fire?(y/n) ");
-      char c = scan.next().charAt(0);
+      update_message("You have Kalashnikov, would you like to fire?(y/n) ");
+      //get the input into string c IMPORTANT
       if (c == 'y'){
-        mainController.update_message("Which card index do you pick?(int from 0-3) ");
-        int indx = scan.nextInt();
+        update_message("Which card index do you pick?(int from 0-3) ");
+        //int indx = scan.nextInt();
         int damage = damageDealt(indx, hand2, false);
-        toReturn[0] = this.v.get_player_id(); toReturn[1] = damage;
+        toReturn[0] = otherPlayer.get_player_id(); toReturn[1] = damage;
         return toReturn;
       }
     }
     if (gun == 2 && cont == true){
-      mainController.update_message("You have Golden Kalashnikov, would you like to fire?(y/n) ");
-      char c = scan.next().charAt(0);
+      update_message("You have Golden Kalashnikov, would you like to fire?(y/n) ");
+      //char c = scan.next().charAt(0);
       if (c == 'y'){
-          toReturn[0] = this.v.get_player_id(); toReturn[1] = 8;
+          toReturn[0] = otherPlayer.get_player_id(); toReturn[1] = 8;
           System.out.println(8);
           return toReturn;
       }
@@ -316,9 +318,9 @@ public class mainController {
     Card drawnCard;
     printHand(hand1);
 
-    System.out.println("Which card would you like to replace?(int from 0 to 3) "); int rcno = scan.nextInt();
-    System.out.println("Which pile should the card go to?(d)iscard/(s)helf "); String tpile = scan.next();
-    System.out.println("Which pile do you want to draw from?(m)ilitary/(s)helf "); String opile = scan.next();
+    update_message("Which card would you like to replace?(int from 0 to 3) "); //int rcno = scan.nextInt();
+    update_message("Which pile should the card go to?(d)iscard/(s)helf "); //String tpile = scan.next();
+    update_message("Which pile do you want to draw from?(m)ilitary/(s)helf "); //String opile = scan.next();
     boolean m;
     int[] blankjaja = {1,2};
     Pile[] newPvalues;
@@ -329,17 +331,17 @@ public class mainController {
     }
     if (tpile == "discard" || tpile == "d"){
       if (m == true){
-        newPvalues = this.b.receive_card(this.militaryGarbage, this.discard, drawnCard, rcno);
+        newPvalues = currPlayer.receive_card(this.militaryGarbage, this.discard, drawnCard, rcno);
         this.militaryGarbage = newPvalues[0]; this.discard = newPvalues[1];
       }else{
-        newPvalues = this.b.receive_card(this.shelf, this.discard, drawnCard, rcno);
+        newPvalues = currPlayer.receive_card(this.shelf, this.discard, drawnCard, rcno);
         this.shelf = newPvalues[0]; this.discard = newPvalues[1];}
     }else{
       if (m == true){
-        newPvalues = this.b.receive_card(this.militaryGarbage, this.shelf, drawnCard, rcno);
+        newPvalues = currPlayer.receive_card(this.militaryGarbage, this.shelf, drawnCard, rcno);
         this.militaryGarbage = newPvalues[0]; this.shelf = newPvalues[1];
       }else{
-        newPvalues = this.b.receive_card(this.shelf, this.shelf, drawnCard, rcno);
+        newPvalues = currPlayer.receive_card(this.shelf, this.shelf, drawnCard, rcno);
         int n = hand1[rcno].get_number(); int s = hand1[rcno].get_suit();
         Card rcard = new Card(n,s);
         this.shelf = newPvalues[0]; this.shelf.setCard(n*4+s, rcard);}
