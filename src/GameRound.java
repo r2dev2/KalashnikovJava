@@ -116,148 +116,148 @@ public class GameRound {
     }
 
 
-  private boolean int_is_in(int x, int[] arr){
-    for (int i = 0; i < arr.length; i++){
-      if (x == arr[i]){
-        return true;
-      }
+    private boolean int_is_in(int x, int[] arr){
+        for (int i = 0; i < arr.length; i++){
+            if (x == arr[i]){
+                return true;
+            }
+        }
+        return false;
     }
-    return false;
-  }
 
-  private boolean card_is_in(Card ca, Pile pile){
-    Card[] cntnts = pile.getContents();
-    for (int i = 0; i < 52; i++){
-      if (cntnts[i].isEqual(ca)){
-        return true;
-      }
+    private boolean card_is_in(Card ca, Pile pile){
+        Card[] cntnts = pile.getContents();
+        for (int i = 0; i < 52; i++){
+            if (cntnts[i].isEqual(ca)){
+                return true;
+            }
+        }
+        return false;
     }
-    return false;
-  }
 
-	private static int randRange(int min, int max) {
+    private static int randRange(int min, int max) {
 
-		if (min >= max) {
-			throw new IllegalArgumentException("max must be greater than min");
-		}
+        if (min >= max) {
+            throw new IllegalArgumentException("max must be greater than min");
+        }
 
-		Random r = new Random();
-		return r.nextInt((max - min) + 1) + min;
-	}
+        Random r = new Random();
+        return r.nextInt((max - min) + 1) + min;
+    }
 
-  private Card randCardFromPile(Pile pi){;
-    boolean success = false;
-    int cno;
-    Card tester = new Card(13,4);
-    while (success == false) {
-      cno = randRange(0,51)+4;
-      int s = cno % 4;
-      int n = (cno-s)/4;
-      tester = new Card(n,s);
-      if (card_is_in(tester, pi) == false){
+    private Card randCardFromPile(Pile pi){;
+        boolean success = false;
+        int cno;
+        Card tester = new Card(13,4);
+        while (success == false) {
+            cno = randRange(0,51)+4;
+            int s = cno % 4;
+            int n = (cno-s)/4;
+            tester = new Card(n,s);
+            if (card_is_in(tester, pi) == false){
+                return tester;
+            }
+        }
         return tester;
+    }
+
+    private int[] randCards(int n){
+        //Generates n random numbers
+        int[] ints = new int[n];
+        for (int i=0; i<n; i++) {
+            int c=randRange(1,51);
+            ints[i]=c;
+        }
+        return ints;
+    }
+
+
+
+
+
+
+    private boolean isValidCard(int cnum, int[] possibleCards){
+        for(int i = 0; i < 4; i++){
+            if(cnum == possibleCards[i]){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int[] removeCard(int cnum, int[] carray){
+        for(int i = 0; i < 4; i++){
+            if(carray[i] == cnum){
+                carray[i] = 20;
+            }
+        }
+        return carray;
+    }
+
+    private boolean isKalashnikov(Card[] shand){
+        int sum = 0;
+        for (int i = 0; i < 4; i++){
+            sum += shand[i].get_suit();
+        }
+        if (sum % 4 == 0){
+            return true;
+        }
+        return false;
+    }
+
+    // returns 0 if none, 1 if kalashnikov, 2 if golden kalashnikov
+    private int getGun(Player slav){
+        int[] cardNums = {0, 12, 3, 6};
+        Card[] slavHand = new Card[4];
+        slavHand = slav.get_hand();
+        int gunpoints = 0;
+        for (int i = 0; i < 4; i++){
+            if (isValidCard(slavHand[i].get_number(), cardNums) == true){
+                cardNums = removeCard(slavHand[i].get_number(), cardNums);
+                gunpoints++;
+            }
+        }
+        if (gunpoints == 4){
+            if (isKalashnikov(slavHand) == true){
+                return 2;
+            }
+            return 1;
+        }
+        return 0;
+    }
+
+    private int damageDealt(int idx, Card[] hand, boolean isKalashnikov){
+        int[] snarray = new int[4];
+        int damage = 0;
+        for (int i = 0; i < 4; i++){
+            snarray[i] = hand[i].get_number();
+            if (snarray[i] == 0){
+                snarray[i] = 20;
+            }
+        }
+        for (int i = 0; i < 4; i++){
+            if (snarray[i] <= snarray[idx]){
+                damage++;
+            }
+        }
+        if (isKalashnikov == true){
+            damage *= 2;
+        }
+        return damage;
+    }
+
+    /*private int getPlayerNo(Player p){
+      if (p.role == "Boris"){
+        return 1;
       }
+      return 2;
     }
-    return tester;
-  }
 
-  private int[] randCards(int n){
-    //Generates n random numbers
-    int[] ints = new int[n];
-    for (int i=0; i<n; i++) {
-      int c=randRange(1,51);
-      ints[i]=c;
-    }
-    return ints;
-  }
-
-
-
-
-
-
-  private boolean isValidCard(int cnum, int[] possibleCards){
-    for(int i = 0; i < 4; i++){
-      if(cnum == possibleCards[i]){
-        return true;
+    private void printHand(Card[] shand){
+      for (int i = 0; i < 4; i++){
+        shand[i].disp();
       }
-    }
-    return false;
-  }
-
-  private int[] removeCard(int cnum, int[] carray){
-    for(int i = 0; i < 4; i++){
-      if(carray[i] == cnum){
-        carray[i] = 20;
-      }
-    }
-    return carray;
-  }
-
-  private boolean isKalashnikov(Card[] shand){
-    int sum = 0;
-    for (int i = 0; i < 4; i++){
-      sum += shand[i].get_suit();
-    }
-    if (sum % 4 == 0){
-      return true;
-    }
-    return false;
-  }
-
-  // returns 0 if none, 1 if kalashnikov, 2 if golden kalashnikov
-  private int getGun(Player slav){
-    int[] cardNums = {0, 12, 3, 6};
-    Card[] slavHand = new Card[4];
-    slavHand = slav.get_hand();
-    int gunpoints = 0;
-    for (int i = 0; i < 4; i++){
-      if (isValidCard(slavHand[i].get_number(), cardNums) == true){
-        cardNums = removeCard(slavHand[i].get_number(), cardNums);
-        gunpoints++;
-      }
-    }
-    if (gunpoints == 4){
-      if (isKalashnikov(slavHand) == true){
-        return 2;
-      }
-      return 1;
-    }
-    return 0;
-  }
-
-  private int damageDealt(int idx, Card[] hand, boolean isKalashnikov){
-    int[] snarray = new int[4];
-    int damage = 0;
-    for (int i = 0; i < 4; i++){
-      snarray[i] = hand[i].get_number();
-      if (snarray[i] == 0){
-        snarray[i] = 20;
-      }
-    }
-    for (int i = 0; i < 4; i++){
-      if (snarray[i] <= snarray[idx]){
-        damage++;
-      }
-    }
-    if (isKalashnikov == true){
-      damage *= 2;
-    }
-    return damage;
-  }
-
-  /*private int getPlayerNo(Player p){
-    if (p.role == "Boris"){
-      return 1;
-    }
-    return 2;
-  }
-
-  private void printHand(Card[] shand){
-    for (int i = 0; i < 4; i++){
-      shand[i].disp();
-    }
-  }*/
+    }*/
     @FXML
     //checks if enter key is pressed, if so get stuff from textbox
     protected void enterCheck(KeyEvent ke) {
@@ -303,30 +303,30 @@ public class GameRound {
             currStage+=1;
         }
     }
-  private void executeGunLogic(Integer idx) { //idx param needed to calc damage
-      Player currPlayer = playerlist[turn];
-      Player otherPlayer = playerlist[(turn+1)%2];
-      Card[] hand2 = otherPlayer.get_hand(); //other player hand
-      if (idx==null) {
-          int gun = getGun(currPlayer);;
-          boolean cont = true;
-          if (gun == 1 && cont == true) {
-              update_message("You have Kalashnikov, would you like to fire?(y/n) ");
-          }
-          else if (gun == 2 && cont == true) {
-              update_message("You have Golden Kalashnikov, would you like to fire?(y/n) ");
-          }
-          else{
-              currStage+=2; //skip Kalashnikov if no gun
-          }
-      }
-      else {
-          int[] toReturn = new int[2];
-          int damage = damageDealt(idx, hand2, false);
-          toReturn[0] = otherPlayer.get_player_id(); toReturn[1] = damage;
-          deal_damage(toReturn);
-      }
-  }
+    private void executeGunLogic(Integer idx) { //idx param needed to calc damage
+        Player currPlayer = playerlist[turn];
+        Player otherPlayer = playerlist[(turn+1)%2];
+        Card[] hand2 = otherPlayer.get_hand(); //other player hand
+        if (idx==null) {
+            int gun = getGun(currPlayer);;
+            boolean cont = true;
+            if (gun == 1 && cont == true) {
+                update_message("You have Kalashnikov, would you like to fire?(y/n) ");
+            }
+            else if (gun == 2 && cont == true) {
+                update_message("You have Golden Kalashnikov, would you like to fire?(y/n) ");
+            }
+            else{
+                currStage+=2; //skip Kalashnikov if no gun
+            }
+        }
+        else {
+            int[] toReturn = new int[2];
+            int damage = damageDealt(idx, hand2, false);
+            toReturn[0] = otherPlayer.get_player_id(); toReturn[1] = damage;
+            deal_damage(toReturn);
+        }
+    }
     public void update_hand() {
         //takes a card, and the position of the card to replace
         Player currPlayer = playerlist[turn];
@@ -339,48 +339,48 @@ public class GameRound {
         }
 
     }
-  // returns role code, damage taken of person of role code
-  int[] executeRound(int turn){
-    Player currPlayer = playerlist[turn];
-    Card[] hand1 = currPlayer.get_hand();;
+    // returns role code, damage taken of person of role code
+    int[] executeRound(int turn){
+        Player currPlayer = playerlist[turn];
+        Card[] hand1 = currPlayer.get_hand();;
 
 
 
-    //kalashnikov and golden kalashnikov
-    executeGunLogic(null); //pass in null the first time
-    //player1 draws card
-    Card drawnCard;
-    update_hand();
+        //kalashnikov and golden kalashnikov
+        executeGunLogic(null); //pass in null the first time
+        //player1 draws card
+        Card drawnCard;
+        update_hand();
     /*update_message("Which card would you like to replace?(int from 0 to 3) "); int rcno = scan.nextInt();
     update_message("Which pile should the card go to?(d)iscard/(s)helf "); String tpile = scan.next();
     update_message("Which pile do you want to draw from?(m)ilitary/(s)helf "); String opile = scan.next();*/
-    boolean m;
-    int[] blankjaja = {1,2};
-    Pile[] newPvalues;
-    if (opile == "military" || opile == "m"){
-      drawnCard = randCardFromPile(this.militaryGarbage); m = true;
-    }else{
-      drawnCard = randCardFromPile(this.shelf); m = false;
-    }
-    if (tpile == "discard" || tpile == "d"){
-      if (m == true){
-        newPvalues = currPlayer.receive_card(this.militaryGarbage, this.discard, drawnCard, rcno);
-        this.militaryGarbage = newPvalues[0]; this.discard = newPvalues[1];
-      }else{
-        newPvalues = currPlayer.receive_card(this.shelf, this.discard, drawnCard, rcno);
-        this.shelf = newPvalues[0]; this.discard = newPvalues[1];}
-    }else{
-      if (m == true){
-        newPvalues = currPlayer.receive_card(this.militaryGarbage, this.shelf, drawnCard, rcno);
-        this.militaryGarbage = newPvalues[0]; this.shelf = newPvalues[1];
-      }else{
-        newPvalues = currPlayer.receive_card(this.shelf, this.shelf, drawnCard, rcno);
-        int n = hand1[rcno].get_number(); int s = hand1[rcno].get_suit();
-        Card rcard = new Card(n,s);
-        this.shelf = newPvalues[0]; this.shelf.setCard(n*4+s, rcard);}
-    }
+        /*boolean m;
+        int[] blankjaja = {1,2};
+        Pile[] newPvalues;
+        if (opile == "military" || opile == "m"){
+            drawnCard = randCardFromPile(this.militaryGarbage); m = true;
+        }else{
+            drawnCard = randCardFromPile(this.shelf); m = false;
+        }
+        if (tpile == "discard" || tpile == "d"){
+            if (m == true){
+                newPvalues = currPlayer.receive_card(this.militaryGarbage, this.discard, drawnCard, rcno);
+                this.militaryGarbage = newPvalues[0]; this.discard = newPvalues[1];
+            }else{
+                newPvalues = currPlayer.receive_card(this.shelf, this.discard, drawnCard, rcno);
+                this.shelf = newPvalues[0]; this.discard = newPvalues[1];}
+        }else{
+            if (m == true){
+                newPvalues = currPlayer.receive_card(this.militaryGarbage, this.shelf, drawnCard, rcno);
+                this.militaryGarbage = newPvalues[0]; this.shelf = newPvalues[1];
+            }else{
+                newPvalues = currPlayer.receive_card(this.shelf, this.shelf, drawnCard, rcno);
+                int n = hand1[rcno].get_number(); int s = hand1[rcno].get_suit();
+                Card rcard = new Card(n,s);
+                this.shelf = newPvalues[0]; this.shelf.setCard(n*4+s, rcard);}
+        }
 
-    return blankjaja;
-  }
+        return blankjaja;*/
+    }
 }
 
