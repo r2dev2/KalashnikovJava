@@ -1,4 +1,3 @@
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -81,6 +80,7 @@ public class GameRound {
         }
         cards = new Label[]{card1, card2, card3, card4}; //make array so you can access them by index
         playerlist = new Player[]{boris, vadim};
+        executeRound();
     }
 
     /*@FXML
@@ -258,6 +258,7 @@ public class GameRound {
         shand[i].disp();
       }
     }*/
+    String tpile;
     @FXML
     //checks if enter key is pressed, if so get stuff from textbox
     protected void enterCheck(KeyEvent ke) {
@@ -285,7 +286,7 @@ public class GameRound {
                     update_message("Which pile should the card go to?(d)iscard/(s)helf");
 
                 case 4:
-                    String tpile = inputtext;
+                    tpile = inputtext;
                     update_message("Which pile do you want to draw from(m)ilitary/(s)helf");
                 case 5:
                     boolean drawnFromGarbage;
@@ -331,7 +332,7 @@ public class GameRound {
         //takes a card, and the position of the card to replace
         Player currPlayer = playerlist[turn];
         Card[] hand = currPlayer.get_hand();
-        if (currStage==3) {
+        if (currStage==2) {
             update_message("Which card would you like to replace(range 0-3)");
         }
         for (int i=0;i<hand.length;i++) {
@@ -340,7 +341,7 @@ public class GameRound {
 
     }
     // returns role code, damage taken of person of role code
-    int[] executeRound(int turn){
+    void executeRound(){
         Player currPlayer = playerlist[turn];
         Card[] hand1 = currPlayer.get_hand();;
 
@@ -351,36 +352,6 @@ public class GameRound {
         //player1 draws card
         Card drawnCard;
         update_hand();
-    /*update_message("Which card would you like to replace?(int from 0 to 3) "); int rcno = scan.nextInt();
-    update_message("Which pile should the card go to?(d)iscard/(s)helf "); String tpile = scan.next();
-    update_message("Which pile do you want to draw from?(m)ilitary/(s)helf "); String opile = scan.next();*/
-        /*boolean m;
-        int[] blankjaja = {1,2};
-        Pile[] newPvalues;
-        if (opile == "military" || opile == "m"){
-            drawnCard = randCardFromPile(this.militaryGarbage); m = true;
-        }else{
-            drawnCard = randCardFromPile(this.shelf); m = false;
-        }
-        if (tpile == "discard" || tpile == "d"){
-            if (m == true){
-                newPvalues = currPlayer.receive_card(this.militaryGarbage, this.discard, drawnCard, rcno);
-                this.militaryGarbage = newPvalues[0]; this.discard = newPvalues[1];
-            }else{
-                newPvalues = currPlayer.receive_card(this.shelf, this.discard, drawnCard, rcno);
-                this.shelf = newPvalues[0]; this.discard = newPvalues[1];}
-        }else{
-            if (m == true){
-                newPvalues = currPlayer.receive_card(this.militaryGarbage, this.shelf, drawnCard, rcno);
-                this.militaryGarbage = newPvalues[0]; this.shelf = newPvalues[1];
-            }else{
-                newPvalues = currPlayer.receive_card(this.shelf, this.shelf, drawnCard, rcno);
-                int n = hand1[rcno].get_number(); int s = hand1[rcno].get_suit();
-                Card rcard = new Card(n,s);
-                this.shelf = newPvalues[0]; this.shelf.setCard(n*4+s, rcard);}
-        }
-
-        return blankjaja;*/
     }
 }
 
