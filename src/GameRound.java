@@ -109,10 +109,23 @@ public class GameRound {
     }
     @FXML
     protected void endTurn(ActionEvent event) {
-        for (int i=0; i<cards.length; i++) {
-            cards[i].setText("");
+        if (end_turn.getText().equals("Start turn")) {
+            Card[] currHand = playerlist[turn].get_hand();
+            for (int i=0; i<cards.length; i++) {
+                cards[i].setText(currHand[i].toString());
+            }
+            end_turn.setText("End turn");
+            executeGunLogic(null);
         }
-
+        else {
+            for (int i = 0; i < cards.length; i++) {
+                cards[i].setText("");
+            }
+            turn = (turn + 1) % 2;
+            currStage=0;
+            end_turn.setText("Start turn");
+            update_message("Waiting for Player" + turn);
+        }
     }
 
 
@@ -125,7 +138,7 @@ public class GameRound {
         return false;
     }
 
-    private boolean card_is_in(Card ca, Pile pile){
+/*    private boolean card_is_in(Card ca, Pile pile){
         Card[] cntnts = pile.getContents();
         for (int i = 0; i < 52; i++){
             if (cntnts[i].isEqual(ca)){
@@ -133,7 +146,7 @@ public class GameRound {
             }
         }
         return false;
-    }
+    }*/
 
     private static int randRange(int min, int max) {
 
@@ -145,8 +158,8 @@ public class GameRound {
         return r.nextInt((max - min) + 1) + min;
     }
 
-    private Card randCardFromPile(Pile pi){;
-        boolean success = false;
+    private Card randCardFromPile(Pile pile){;
+/*        boolean success = false;
         int cno;
         Card tester = new Card(13,4);
         while (success == false) {
@@ -154,11 +167,13 @@ public class GameRound {
             int s = cno % 4;
             int n = (cno-s)/4;
             tester = new Card(n,s);
-            if (card_is_in(tester, pi) == false){
+            if (card_is_in(tester, pile) == false){
                 return tester;
             }
         }
-        return tester;
+        return tester;*/
+        int idx = randRange(0, pile.length());
+        return pile.pop(idx);
     }
 
     private int[] randCards(int n){
@@ -262,6 +277,7 @@ public class GameRound {
     @FXML
     //checks if enter key is pressed, if so get stuff from textbox
     protected void enterCheck(KeyEvent ke) {
+        System.out.println(currStage);
         if (ke.getCode()==KeyCode.ENTER) {
             inputtext = inputBox.getText();
             switch (currStage) { //checks if value of currStage == int value, better than a lot of if else
@@ -284,22 +300,30 @@ public class GameRound {
                     int rcno=Integer.valueOf(inputtext);
                     toDiscard = currPlayer.get_hand()[rcno];
                     update_message("Which pile should the card go to?(d)iscard/(s)helf");
-
+                    break;
                 case 4:
                     tpile = inputtext;
-                    update_message("Which pile do you want to draw from(m)ilitary/(s)helf");
+                    if (this.shelf.contents.length!=0) {
+                        update_message("Which pile do you want to draw from(m)ilitary/(s)helf");
+                    }
+                    break;
                 case 5:
                     boolean drawnFromGarbage;
                     Card drawnCard;
                     String opile = inputtext;
-                    if (opile=="military" || opile=="m") {
+                    System.out.println(this.militaryGarbage.length());
+                    if (opile.equals("military") | opile.equals("m")) {
                         drawnCard = randCardFromPile(this.militaryGarbage);
                         drawnFromGarbage=true;
-                    } else{
-                        drawnCard = randCardFromPile(this.shelf);
-                        drawnFromGarbage=false;
+                    } else {
+                        try {
+                            drawnCard = randCardFromPile(this.shelf);
+                            drawnFromGarbage=false;
+                        }
+                        catch (NullPointerException e) {
+                            update_message("There is nothing in the shelf");
+                        }
                     }
-
             }
             currStage+=1;
         }
@@ -338,7 +362,7 @@ public class GameRound {
         for (int i=0;i<hand.length;i++) {
             cards[i].setText(hand[i].toString());
         }
-
+        currStage+=1;
     }
     // returns role code, damage taken of person of role code
     void executeRound(){

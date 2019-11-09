@@ -48,15 +48,23 @@ public class Pile{
         return this.contents;
     }
 
+    int length() {return this.contents.length; }
+
+    Card pop(int idx) {
+        //removes and returns the card at that index
+        return this.contents[idx];
+    }
+
     //Setters
     void setCard(int index, Card cardtoset){
         this.contents[index] = cardtoset;
     }
 
-    void sendToPile(int cno, Pile otherPile){
+/*    void sendToPile(int cno, Pile otherPile){
         otherPile.setCard(cno, this.contents[cno]);
         this.contents[cno] = new Card(14,4);
-    }
+    }*/
+
 
 
 }
