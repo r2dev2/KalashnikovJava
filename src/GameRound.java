@@ -115,7 +115,7 @@ public class GameRound {
                 cards[i].setText(currHand[i].toString());
             }
             end_turn.setText("End turn");
-            executeGunLogic(null);
+            executeRound();
         }
         else {
             for (int i = 0; i < cards.length; i++) {
