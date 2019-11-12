@@ -52,7 +52,9 @@ public class Pile{
 
     Card pop(int idx) {
         //removes and returns the card at that index
-        return this.contents[idx];
+        Card card = this.contents[idx];
+        this.contents[idx]=null;
+        return card;
     }
 
     //Setters

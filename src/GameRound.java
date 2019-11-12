@@ -298,7 +298,7 @@ public class GameRound {
                 case 3:
                     Player currPlayer = playerlist[turn];
                     int rcno=Integer.valueOf(inputtext);
-                    toDiscard = currPlayer.get_hand()[rcno];
+                    toDiscard = currPlayer.get_hand().pop(rcno);
                     update_message("Which pile should the card go to?(d)iscard/(s)helf");
                     break;
                 case 4:
@@ -308,17 +308,14 @@ public class GameRound {
                     }
                     break;
                 case 5:
-                    boolean drawnFromGarbage;
                     Card drawnCard;
                     String opile = inputtext;
-                    System.out.println(this.militaryGarbage.length());
                     if (opile.equals("military") | opile.equals("m")) {
                         drawnCard = randCardFromPile(this.militaryGarbage);
-                        drawnFromGarbage=true;
+                        
                     } else {
                         try {
                             drawnCard = randCardFromPile(this.shelf);
-                            drawnFromGarbage=false;
                         }
                         catch (NullPointerException e) {
                             update_message("There is nothing in the shelf");
